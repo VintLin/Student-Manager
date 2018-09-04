@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}学生管理系统{% endblock %}
+
+{% block content %}
+<div class="container m-cover" style="padding: 20px 10px;">
+    <div class="m-title">
+        <h2 class="row m-table" style="background: #eee;text-align:center; margin-bottom:50px;">
+            <strong>{{item.s_name}}
+                {% if session.get('role') == 3 %}
+                    <small>
+                        <a href="/course/set?class={{item.s_id}}&insert=1">添加课程</a>
+                    </small>
+                {% endif %}
+            </strong>
+        </h2>
+        {% for c in item.clazz%}
+        <h3 class="row m-table">
+            <a href="/class/{{c.c_id}}" >{{c.c_year}}级{{item.s_name}}{{c.c_class}}班</a>
+        </h3>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

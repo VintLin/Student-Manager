@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}学生管理系统{% endblock %}
+
+{% block content %}
+<div class="container m-cover" style="padding: 20px 10px;">
+        <div class="row m-table">
+            <div class="col-md-2">学生姓名</div>
+            <div class="col-md-3">课程名称</div>
+            <div class="col-md-2">任课教师</div>
+            <div class="col-md-1">课程分数</div>
+            <div class="col-md-2">课程类型</div>
+            <div class="col-md-2">开课时间</div>
+        </div>
+    {% for item in pagination.items %}
+        <div class="row m-table">
+            <a href='/student/{{item.s_stu_id}}' class="col-md-2">{{item.student.s_name}}</a>
+            <a href="/course/{{item.s_cou_id}}" class="col-md-3">{{item.course.c_name}}</a>
+            <a href="/teacher/{{item.teacher.t_id}}" class="col-md-2">{{item.teacher.t_name}}</a>
+            <div class="col-md-1">{{item.s_score}}</div>
+            <div class="col-md-2">{{item.course.c_type}}</div>
+            <div class="col-md-2">{{item.course.c_term}}</div>
+        </div>
+    {% endfor %}
+    <div class="page-header">
+        <ul class="pagination">
+            {% if pagination.hasPrev %}
+                <li><a href="/score?page={{pagination.page-1}}">&laquo;</a></li>
+            {% endif %}
+            {% for i in range(1, pagination.pages + 1)%}
+                {% if i == pagination.page %}
+                    <li class="active"><a href="/score?page={{i}}">{{i}}</a></li>
+                {% elif i == 1 or i == pagination.pages%}
+                    <li><a href="/score?page={{i}}">{{i}}</a></li>
+                {% elif i > pagination.page - 8 and i < pagination.page + 8 %}
+                    <li><a href="/score?page={{i}}">{{i}}</a></li>
+                {% elif i == pagination.page - 8 or i == pagination.page + 8 %}
+                    <li><a href="#">...</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if pagination.hasNext %}
+                <li><a href="/score?page={{pagination.page+1}}">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

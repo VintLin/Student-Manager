@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}HotNews{% endblock %}
+
+{% block navbar %}
+    {{super()}}
+    {% block search %}
+    {% endblock%}
+{% endblock %}
+
+{% block content %}
+<div class="container m-cover">
+    <div class="page-header">
+        <form class="bs-example bs-example-form search-form" style="margin:0px auto;" role="form" method="POST">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group input-group-lg">
+                        {{form.hidden_tag()}}
+                        {{ form.search(class='form-control',placeholder='Search...') }}
+                        <span class="input-group-btn">
+                            {{ form.submit(class='btn btn-search') }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row m-table">
+        <div class="col-md-3">教师</div>
+        <div class="col-md-1">性别</div>
+        <div class="col-md-4">教授课程</div>
+        <div class="col-md-2">开课时间</div>
+        <div class="col-md-2">授课教室</div>
+    </div>
+    {% if pagination.hasItem %}
+    {% for item in pagination.items %}
+        <div class="row m-table">
+            <a href="/teacher/{{item.t_id}}" class="col-md-3">{{item.t_name}}</a>
+            <div class="col-md-1">{{item.t_sex}}</div>
+            <a href="/course/{{item.course.c_id}}" class="col-md-4">{{item.course.c_name}}</a>
+            <div class="col-md-2">{{item.course.c_term}}</div>
+            <div class="col-md-2">{{item.course.c_room}}</div>
+        </div>
+    {% endfor %}
+    <div class="page-header">
+        <ul class="pagination">
+            {% if pagination.hasPrev %}
+                <li><a href="/teacher/search?wd={{wd}}&page={{pagination.page-1}}">&laquo;</a></li>
+            {% endif %}
+            {% for i in range(1, pagination.pages + 1)%}
+                {% if i == pagination.page %}
+                    <li class="active"><a href="/teacher/search?wd={{wd}}&page={{i}}">{{i}}</a></li>
+                {% elif i == 1 or i == pagination.pages%}
+                    <li><a href="/teacher/search?wd={{wd}}&page={{i}}">{{i}}</a></li>
+                {% elif i > pagination.page - 8 and i < pagination.page + 8 %}
+                    <li><a href="/teacher/search?wd={{wd}}&page={{i}}">{{i}}</a></li>
+                {% elif i == pagination.page - 8 or i == pagination.page + 8 %}
+                    <li><a href="#">...</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if pagination.hasNext %}
+                <li><a href="/teacher/search?wd={{wd}}&page={{pagination.page+1}}">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

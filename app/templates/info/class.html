@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}学生管理系统{% endblock %}
+
+{% block content %}
+<div class="container m-cover" style="padding: 20px 10px;">
+    <div class="row">
+        <table class="table table-striped" style="font-size:25px;">
+            <h1 style="text-align:center; margin-bottom:50px">
+                <strong>{{item.c_year}}级{{item.subject.s_name}}{{item.c_class}}班
+                    {% if session.get('role') == 3 %}
+                    <small>
+                        <a href="/student/set?class={{item.c_id}}&insert=1">添加学生</a>
+                    </small>
+                    {% endif %}
+                </strong>
+            </h1>
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>学生姓名</th>
+                    <th>性别</th>
+                    <th>出生日期</th>
+                    <th>所属地址</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stu in item.student %}
+                <tr>
+                    <td>{{stu.s_id}}</td>
+                    <td><a href="/student/{{stu.s_id}}">{{stu.s_name}}</a></td>
+                    <td>{{stu.s_sex}}</td>
+                    <td>{{stu.s_birthday}}</td>
+                    <td>{{stu.s_address}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}学生管理系统{% endblock %}
+
+{% block content %}
+<div class="container m-cover" style="padding: 20px 10px;">
+        <div class="row m-table">
+            <div class="col-md-3">专业名称</div>
+            <div class="col-md-4">班级</div>
+            <div class="col-md-2">届</div>
+            <div class="col-md-3">所属院系</div>
+        </div>
+    {% if flag == 1 %}
+        <div class="row m-table">
+            <a href="/subject/{{pagination.subject.s_id}}" class="col-md-3">{{pagination.subject.s_name}}</a>
+            <a href="/class/{{pagination.c_id}}" class="col-md-4">{{pagination.c_year}}级{{pagination.subject.s_name}}{{pagination.c_class}}班</a>
+            <div class="col-md-2">{{pagination.c_year}}</div>
+            <div class="col-md-3">{{pagination.department.d_name}}</div>
+        </div>
+    {% else %}
+        {% for item in pagination.items %}
+            <div class="row m-table">
+                <a href="/subject/{{item.subject.s_id}}" class="col-md-3">{{item.subject.s_name}}</a>
+                <a href="/class/{{item.c_id}}" class="col-md-4">{{item.c_year}}级{{item.subject.s_name}}{{item.c_class}}班</a>
+                <div class="col-md-2">{{item.c_year}}</div>
+                <div class="col-md-3">{{item.department.d_name}}</div>
+            </div>
+        {% endfor %}
+        <div class="page-header">
+            <ul class="pagination">
+                {% if pagination.hasPrev %}
+                    <li><a href="/class?page={{pagination.page-1}}">&laquo;</a></li>
+                {% endif %}
+                {% for i in range(1, pagination.pages + 1)%}
+                    {% if i == pagination.page %}
+                        <li class="active"><a href="/class?page={{i}}">{{i}}</a></li>
+                    {% elif i == 1 or i == pagination.pages%}
+                        <li><a href="/class?page={{i}}">{{i}}</a></li>
+                    {% elif i > pagination.page - 8 and i < pagination.page + 8 %}
+                        <li><a href="/class?page={{i}}">{{i}}</a></li>
+                    {% elif i == pagination.page - 8 or i == pagination.page + 8 %}
+                        <li><a href="#">...</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if pagination.hasNext %}
+                    <li><a href="/class?page={{pagination.page+1}}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

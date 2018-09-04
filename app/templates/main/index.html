@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}学生管理系统{% endblock %}
+
+{% block content %}
+<div class="container m-cover" style="padding: 20px 10px;">
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="leave">{{name}} 欢迎使用学生管理系统！</h1>
+            <p class="leave">您可以在这里管理自己的个人信息。</p>
+            <div class="row leave">
+                {% if flag %}
+                    <p class="col-md-4"><a class="btn btn-primary btn-lg" href="/logout" role="button">退出登录</a></p>
+                    <p class="col-md-4"><a class="btn btn-primary btn-lg" href="/student/search" role="button">学生查询</a></p>
+                    <p class="col-md-4"><a class="btn btn-primary btn-lg" href="/teacher/search" role="button">教师查询</a></p>
+                {% else %}
+                    <p class="col-md-12"><a class="btn btn-primary btn-lg" href="/login" role="button">登录</a></p>
+                {% endif %}
+            </div>
+            <div class="row leave">
+                {% if session.get('role') == 2 %}
+                    <p class="col-md-4"><a class="btn btn-primary btn-lg" href="/score/set" role="button">录入成绩</a></p>
+                {% endif %}
+                {% if session.get('role') == 3 %}
+                    <p class="col-md-4"><a class="btn btn-primary btn-lg" href="/teacher/set?insert=1" role="button">添加教师</a></p>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}学生管理系统{% endblock %}
+
+{% block content %}
+<div class="container m-cover" style="padding: 20px 10px;">
+    <div class="row m-table-cover">
+        <table class="table table-striped" style="font-size:25px;">
+            <h1 style="text-align:center; margin-bottom:50px">
+                <strong>{{item.c_name}}
+                    <small>
+                        {% if session.get('role') != 1 %}
+                        <a href="/course/score/{{item.c_id}}">学生成绩</a>/
+                        {% elif session.get('role') == 3 %}
+                        <a href="/course/set?id={{item.c_id}}">修改信息</a>
+                        {% endif %}
+                    </small>
+                </strong>
+            </h1>
+            <tbody>
+                <tr>
+                    <td>课程编号</td>
+                    <td>{{item.c_id}}</td>
+                </tr>
+                <tr>
+                    <td>课程</td>
+                    <td>{{item.c_name}}</td>
+                </tr>
+                <tr>
+                    <td>任课教师</td>
+                    <td><a href="/teacher/{{item.teacher.t_id}}">{{item.teacher.t_name}}</a></td>
+                </tr>
+                <tr>
+                    <td>课程类型</td>
+                    <td>{{item.c_type}}</td>
+                </tr>
+                <tr>
+                    <td>专业</td>
+                    <td><a href="/subject/{{item.subject.s_id}}">{{item.subject.s_name}}</a></td>
+                </tr>
+                <tr>
+                    <td>开课时间</td>
+                    <td>{{item.c_term}}</td>
+                </tr>
+                <tr>
+                    <td>授课教室</td>
+                    <td>{{item.c_room}}</td>
+                </tr>
+                {% for c in item.clazz %}
+                <tr>
+                    <td>教授班级</td>
+                    <td>
+                        <a href="/class/{{c.c_id}}">
+                            {{c.c_year}}级{{item.subject.s_name}}{{c.c_class}}班
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

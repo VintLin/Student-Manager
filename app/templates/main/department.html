@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}学生管理系统{% endblock %}
+
+{% block content %}
+<div class="container m-cover" style="padding: 20px 10px;">
+
+    {% for item in items %}
+    <div class="m-title">
+        <h2 class="row m-table" style="background: #eee;">{{item.d_name}}</h2>
+        {% for sub in item.subject%}
+        <h3 class="row m-table">
+            <a href="/subject/{{sub.s_id}}" >{{sub.s_name}}</a>
+        </h3>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

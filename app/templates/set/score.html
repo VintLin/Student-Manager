@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}学生管理系统{% endblock %}
+
+{% block content %}
+<div class="container m-cover" style="padding: 20px 10px;">
+        <div class="row m-table">
+            <div class="col-md-4">学生编号</div>
+            <div class="col-md-4">学生名称</div>
+            <div class="col-md-4">课程分数</div>
+        </div>
+    {% for item in items %}
+        <div class="row m-table">
+            <a href='/student/{{item.s_id}}' class="col-md-4">{{item.s_id}}</a>
+            <div class="col-md-4">{{item.s_name}}</div>
+            <div class="col-md-4 value{{item.s_id}}">
+                <input id="input{{item.s_id}}" type="text" placeholder="输入成绩" value="" style="width: 100px; height: 32px;">
+                <button class="btn btn-insert button{{item.s_id}}" href="javascript:;" onclick="insert({{item.s_id}});">提交</button>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<script>
+    function insert(stu) {
+        score = $('#input'+stu.toString()).val();
+        tea_id = {{session.get('id')}}
+        $.get("/ajax/score?id="+stu.toString()+"&score="+score+"&tea_id="+tea_id, function(result){
+            if (result == 1 || result == 2){
+                $('#input'+stu.toString()).remove()
+                $('.button'+stu.toString()).remove()
+                $('.value'+stu.toString()).text(score)
+            } else {
+                alert('录入失败');
+            }
+        });
+    }
+</script>
+{% endblock %}

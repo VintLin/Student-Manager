@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}学生管理系统{% endblock %}
+
+{% block content %}
+<div class="container m-cover" style="padding: 20px 10px;">
+    <div class="row m-table-cover">
+        <table class="table table-striped" style="font-size:25px;">
+            <h1 style="text-align:center; margin-bottom:50px">
+                <strong>{{item.t_name}}
+                    {% if session.get('role') == 3 or (session.get('id') == item.t_id and session.get('role') == 2) %}
+                    <small><a href="/teacher/set?id={{item.t_id}}">修改信息</a></small>
+                    {% endif %}
+                </strong>
+            </h1>
+            <tbody>
+                <tr>
+                    <td>教师编号</td>
+                    <td>{{item.t_id}}</td>
+                </tr>
+                <tr>
+                    <td>教师姓名</td>
+                    <td>{{item.t_name}}</td>
+                </tr>
+                <tr>
+                    <td>性别</td>
+                    <td>{{item.t_sex}}</td>
+                </tr>
+                <tr>
+                    <td>教授课程</td>
+                    <td><a href="/course/{{item.course.c_id}}">{{item.course.c_name}}</a></td>
+                </tr>
+                <tr>
+                    <td>专业</td>
+                    <td><a href="/subject/{{item.subject.s_id}}">{{item.subject.s_name}}</a></td>
+                </tr>
+                <tr>
+                    <td>开课时间</td>
+                    <td>{{item.course.c_term}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

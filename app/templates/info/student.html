@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}学生管理系统{% endblock %}
+
+{% block content %}
+<div class="container m-cover" style="padding: 20px 10px;">
+    <div class="row m-table-cover">
+        <table class="table table-striped" style="font-size:25px;">
+            <h1 style="text-align:center; margin-bottom:50px">
+                <strong>{{item.s_name}}
+                    <small>
+                        {% if session.get('role') == 3 or (session.get('id') == item.s_id and session.get('role') == 1) %}
+                        <a href="/student/score/{{item.s_id}}">个人成绩</a>
+                        /<a href="/student/set?id={{item.s_id}}">修改信息</a>
+                        {% endif %}
+                    </small>
+                </strong>
+            </h1>
+            <tbody>
+                <tr>
+                    <td>学生编号</td>
+                    <td>{{item.s_id}}</td>
+                </tr>
+                <tr>
+                    <td>学生姓名</td>
+                    <td>{{item.s_name}}</td>
+                </tr>
+                <tr>
+                    <td>性别</td>
+                    <td>{{item.s_sex}}</td>
+                </tr>
+                <tr>
+                    <td>出生日期</td>
+                    <td>{{item.s_birthday}}</td>
+                </tr>
+                <tr>
+                    <td>所属地址</td>
+                    <td>{{item.s_address}}</td>
+                </tr>
+                <tr>
+                    <td>班级</td>
+                    <td><a href="/class/{{item.s_class_id}}">{{item.clazz.c_year}}级{{item.subject.s_name}}{{item.clazz.c_class}}班</a></td>
+                </tr>
+                <tr>
+                    <td>专业</td>
+                    <td><a href="/subject/{{item.subject.s_id}}">{{item.subject.s_name}}</a></td>
+                </tr>
+                <tr>
+                    <td>届</td>
+                    <td>{{item.clazz.c_year}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}学生管理系统{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{url_for('static',filename='image/hm-logo.png')}}" type="image/x-icon">
+<link rel="icon" href="{{url_for('static',filename='image/hm-logo.png')}}" type="image/x-icon">
+<link rel="stylesheet" href="{{url_for('static', filename='css/base.css')}}" type="text/css">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+{% endblock %}
+
+{% block navbar %}
+<div class="header-fixed">
+    <div class="navbar navbar-default cover-navbar">
+        <div class="navbar-content">
+            <div class="container">
+                <div class="navbar-header">
+                    <img src="{{url_for('static',filename='image/hm-logo.png')}}" style="width:57px; height:57px;"/>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/"><h4><strong>首页</strong></h4></a></li>
+                        <li><a href="/student"><h4>学生</h4></a></li>
+                        <li><a href="/teacher"><h4>老师</h4></a></li>
+                        <li><a href="/score"><h4>成绩</h4></a>
+                        <li><a href="/class"><h4>班级</h4></a></li>
+                        <li><a href="/department"><h4>院系</h4></a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="http://momentjs.cn/"><h4>{{ moment().format('YYYY-MM-DD hh:mm', refresh=True) }}</h4></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% for message in get_flashed_messages() %}
+        <div class="is-error alert">
+            <div class="reb-error">
+            </div>
+            <div class="info-error">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}

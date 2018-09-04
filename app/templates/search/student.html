@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}HotNews{% endblock %}
+
+{% block navbar %}
+    {{super()}}
+    {% block search %}
+    {% endblock%}
+{% endblock %}
+
+{% block content %}
+<div class="container m-cover">
+    <div class="page-header">
+        <form class="bs-example bs-example-form search-form" style="margin:0px auto;" role="form" method="POST">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group input-group-lg">
+                        {{form.hidden_tag()}}
+                        {{ form.search(class='form-control',placeholder='Search...') }}
+                        <span class="input-group-btn">
+                            {{ form.submit(class='btn btn-search') }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row m-table">
+        <div class="col-md-1">学生</div>
+        <div class="col-md-1">性别</div>
+        <div class="col-md-3">班级</div>
+        <div class="col-md-2">专业</div>
+        <div class="col-md-1">入学时间</div>
+        <div class="col-md-2">出生年月</div>
+        <div class="col-md-2">家庭住址</div>
+    </div>
+    {% if pagination.hasItem %}
+    {% for item in pagination.items %}
+        <div class="row m-table">
+            <a href="/student/{{item.s_id}}" class="col-md-1">{{item.s_name}}</a>
+            <div class="col-md-1">{{item.s_sex}}</div>
+            <a href="/class/{{item.s_class_id}}" class="col-md-3">{{item.clazz.c_year}}级{{item.subject.s_name}}{{item.clazz.c_class}}班</a>
+            <a href="/subject/{{item.subject.s_id}}" class="col-md-2">{{item.subject.s_name}}</a>
+            <div class="col-md-1">{{item.clazz.c_year}}</div>
+            <div class="col-md-2">{{item.s_birthday}}</div>
+            <div class="col-md-2">{{item.s_address}}</div>
+        </div>
+    {% endfor %}
+    <div class="page-header">
+        <ul class="pagination">
+            {% if pagination.hasPrev %}
+                <li><a href="/student/search?wd={{wd}}&page={{pagination.page-1}}">&laquo;</a></li>
+            {% endif %}
+            {% for i in range(1, pagination.pages + 1)%}
+                {% if i == pagination.page %}
+                    <li class="active"><a href="/student/search?wd={{wd}}&page={{i}}">{{i}}</a></li>
+                {% elif i == 1 or i == pagination.pages%}
+                    <li><a href="/student/search?wd={{wd}}&page={{i}}">{{i}}</a></li>
+                {% elif i > pagination.page - 8 and i < pagination.page + 8 %}
+                    <li><a href="/student/search?wd={{wd}}&page={{i}}">{{i}}</a></li>
+                {% elif i == pagination.page - 8 or i == pagination.page + 8 %}
+                    <li><a href="#">...</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if pagination.hasNext %}
+                <li><a href="/student/search?wd={{wd}}&page={{pagination.page+1}}">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
